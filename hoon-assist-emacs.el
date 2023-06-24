@@ -1,35 +1,51 @@
+;;; hoon-assist-emacs.el --- Define Hoon term under point. -*- lexical-binding: t -*-
+
+;;; Commentary:
+;;; Provide official documentation for Hoon runes and commands under point.
+
+;;; Code:
+
+(defgroup hoon-assist nil
+  "Open an Emacs buffer defining a term under point."
+  :group 'convenience
+  :prefix "hass-")
+
 (require 'json)
 (require 'shr)
 
+(defvar hoon-assist-dict-file
+  (expand-file-name "hoon-dictionary.json"
+                    (file-name-directory (buffer-file-name)))
+  "JSON file with Hoon docstrings.")
 
 (defun json-to-list (json lst)
-  (if (cdr json)      
+  (if (cdr json)
       (progn
-	(setq lst (cons  (cons (car (gethash "keys" (car json))) (gethash "doc" (car json))) lst))      
-	(json-to-list (cdr json) lst))
+	    (setq lst (cons  (cons (car (gethash "keys" (car json))) (gethash "doc" (car json))) lst))
+	    (json-to-list (cdr json) lst))
     (setq lst (cons  (cons (car (gethash "keys" (car json))) (gethash "doc" (car json))) lst))))  ;;modify last keys
 
 
 (defun make-ht-recurse (lst aa)
   ;;lst is the list created by alldefs; aa is the (empty) hash table
-  (if (cdr lst)      
+  (if (cdr lst)
       (progn
-        (puthash (caar lst) (cdar lst) aa)       
-	(make-ht-recurse (cdr lst) aa))
+        (puthash (caar lst) (cdar lst) aa)
+	    (make-ht-recurse (cdr lst) aa))
     (progn
-      (puthash (caar lst) (cdar lst) aa) 
+      (puthash (caar lst) (cdar lst) aa)
       aa)))
 
 (setq alldefs
-  ;;json is a list of hash tables
-  (let* ((json-object-type 'hash-table)
-	 (json-array-type 'list)
-	 (json-key-type 'string)
-	 (json (json-read-file dict-file))
-	 (mylist (json-to-list json '()))
-	 (aa (make-hash-table :test 'equal :size 10))
-	 (bb (make-ht-recurse mylist aa)))  
-    bb))
+      ;;json is a list of hash tables
+      (let* ((json-object-type 'hash-table)
+	         (json-array-type 'list)
+	         (json-key-type 'string)
+	         (json (json-read-file dict-file))
+	         (mylist (json-to-list json '()))
+	         (aa (make-hash-table :test 'equal :size 10))
+	         (bb (make-ht-recurse mylist aa)))
+        bb))
 
 (defun prep-foo-buffer (html)
   (progn
@@ -53,19 +69,20 @@
   ;; (condition-case nil
   (if (get-buffer "*html*")
       (progn
-	(delete-window)
-	(kill-buffer "*html*"))	   
-      (let* ((current-loc (point))
-	     (before-space (re-search-forward "[ (\n]" nil nil -1))
-	     (dummy (goto-char current-loc))
-	     (after-space (re-search-forward "[ (\n]" nil nil 1))
-	     (aa (striplus  (string-trim (buffer-substring-no-properties  before-space  (- after-space 1) ))))
-	     (def (gethash aa alldefs)) ;;gets the definition      
-	     )
-	(if (eq nil def) 
-	    (message "%s %s" aa "is not in the dictionary!")
-	  (prep-foo-buffer def)) )
-  ;;  (error nil)
+	    (delete-window)
+	    (kill-buffer "*html*"))
+    (let* ((current-loc (point))
+	       (before-space (re-search-forward "[ (\n]" nil nil -1))
+	       (dummy (goto-char current-loc))
+	       (after-space (re-search-forward "[ (\n]" nil nil 1))
+	       (aa (striplus  (string-trim (buffer-substring-no-properties  before-space  (- after-space 1) ))))
+	       (def (gethash aa alldefs)) ;;gets the definition
+	       )
+	  (if (eq nil def)
+	      (message "%s %s" aa "is not in the dictionary!")
+	    (prep-foo-buffer def)) )
+    ;;  (error nil)
     ))
 
-
+;; End:
+;;; hoon-assist-emacs.el ends here
