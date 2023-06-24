@@ -92,4 +92,4 @@
 
 (provide 'hoon-assist.el)
 ;; End:
-;;; hoon-assist-emacs.el ends here
+;;; hoon-assist.el ends here
