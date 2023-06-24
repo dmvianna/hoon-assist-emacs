@@ -10,6 +10,12 @@
   :group 'convenience
   :prefix "hass-")
 
+(define-minor-mode hoon-assist
+  "Open an Emacs buffer defining a term under point."
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "M-.") 'get-token-definition)
+            map))
+
 (require 'json)
 (require 'shr)
 
@@ -84,5 +90,6 @@
     ;;  (error nil)
     ))
 
+(provide 'hoon-assist)
 ;; End:
 ;;; hoon-assist-emacs.el ends here
