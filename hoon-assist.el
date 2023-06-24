@@ -10,7 +10,8 @@
   :group 'convenience
   :prefix "hass-")
 
-(define-minor-mode hoon-assist
+;;;###autoload
+(define-minor-mode hoon-assist-mode
   "Open an Emacs buffer defining a term under point."
   :keymap (let ((map (make-sparse-keymap)))
             (define-key map (kbd "M-.") 'get-token-definition)
