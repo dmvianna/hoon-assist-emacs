@@ -20,8 +20,7 @@
 (require 'shr)
 
 (defvar hoon-assist-dict-file
-  (expand-file-name "hoon-dictionary.json"
-                    (file-name-directory (buffer-file-name)))
+  "hoon-dictionary.json"
   "JSON file with Hoon docstrings.")
 
 (defun json-to-list (json lst)
@@ -31,6 +30,7 @@
 	    (json-to-list (cdr json) lst))
     (setq lst (cons  (cons (car (gethash "keys" (car json))) (gethash "doc" (car json))) lst))))  ;;modify last keys
 
+(setq-local max-lisp-eval-depth 10000)
 
 (defun make-ht-recurse (lst aa)
   ;;lst is the list created by alldefs; aa is the (empty) hash table
