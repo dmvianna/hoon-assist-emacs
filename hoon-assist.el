@@ -42,16 +42,16 @@
       (puthash (caar lst) (cdar lst) aa)
       aa)))
 
-(setq alldefs
-      ;;json is a list of hash tables
-      (let* ((json-object-type 'hash-table)
-	         (json-array-type 'list)
-	         (json-key-type 'string)
-	         (json (json-read-file hoon-assist-dict-file))
-	         (mylist (json-to-list json '()))
-	         (aa (make-hash-table :test 'equal :size 10))
-	         (bb (make-ht-recurse mylist aa)))
-        bb))
+(defvar alldefs
+  ;;json is a list of hash tables
+  (let* ((json-object-type 'hash-table)
+	     (json-array-type 'list)
+	     (json-key-type 'string)
+	     (json (json-read-file hoon-assist-dict-file))
+	     (mylist (json-to-list json '()))
+	     (aa (make-hash-table :test 'equal :size 10))
+	     (bb (make-ht-recurse mylist aa)))
+    bb))
 
 (defun prep-foo-buffer (html)
   (progn
