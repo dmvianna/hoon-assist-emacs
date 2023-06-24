@@ -90,6 +90,6 @@
     ;;  (error nil)
     ))
 
-(provide 'hoon-assist)
+(provide 'hoon-assist.el)
 ;; End:
 ;;; hoon-assist-emacs.el ends here
