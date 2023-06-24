@@ -1,4 +1,4 @@
-;;; hoon-assist-emacs.el --- Define Hoon term under point. -*- lexical-binding: t -*-
+;;; hoon-assist.el --- Define Hoon term under point. -*- lexical-binding: t -*-
 
 ;;; Commentary:
 ;;; Provide official documentation for Hoon runes and commands under point.
